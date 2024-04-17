@@ -1,3 +1,4 @@
+from textual import on
 from textual.app import App, ComposeResult
 from textual.containers import Grid
 from textual.widgets import Button, Digits
@@ -31,6 +32,15 @@ class CalculatorApp(App[None]):
             yield Button("0", id="number-0", classes="number-button")
             yield Button(".")
             yield Button.warning("=")
+
+    @on(Button.Pressed, ".number-button")
+    def update_number_dispayed(self, event: Button.Pressed) -> None:
+        button_id = event.button.id
+        _, _, digit = button_id.partition("-")
+        self.number_displayed = self.number_displayed.lstrip("0") + digit
+
+    def watch_number_displayed(self, new_value: str) -> None:
+        self.query_one(Digits).update(new_value)
 
 
 if __name__ == "__main__":
