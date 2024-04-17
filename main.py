@@ -1,14 +1,17 @@
 from textual.app import App, ComposeResult
 from textual.containers import Grid
-from textual.widgets import Button
+from textual.widgets import Button, Digits
 
 
 class CalculatorApp(App[None]):
+    CSS_PATH = "main.css"
+
     def compose(self) -> ComposeResult:
+        yield Digits("1234", id="display")
         with Grid():
-            yield Button("AC")
-            yield Button("+/-")
-            yield Button("%")
+            yield Button("AC", classes="top-button")
+            yield Button("+/-", classes="top-button")
+            yield Button("%", classes="top-button")
             yield Button.warning("/")
             yield Button("7")
             yield Button("8")
@@ -22,7 +25,7 @@ class CalculatorApp(App[None]):
             yield Button("2")
             yield Button("3")
             yield Button.warning("+")
-            yield Button("0")
+            yield Button("0", id="number-0")
             yield Button(".")
             yield Button.warning("=")
 
